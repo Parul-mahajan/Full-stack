@@ -22,10 +22,15 @@ jobs:
         with:
           python-version: '3.9'
 
+      
       - name: Cache pip
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: linux-pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('*/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip
+            ${{ runner.os }}-pip-
+
+      - name: Cache status
+        run: echo "Cache hit ${{ steps.cache-pip.outputs.cache-hit }}"
+
